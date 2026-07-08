@@ -9,11 +9,11 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "Letnja škola pisanja newslettera | Nikola Newsletter",
+  title: "LETNJA ŠKOLA PISANJA NEWSLETTERA",
   description:
     "Ovladaj pisanjem prodajnog newslettera od naslova do poziva na akciju. 6 online časova uživo, praktičan rad na tvom newsletteru i domaći zadaci od 3. avgusta do 7. septembra.",
   openGraph: {
-    title: "Letnja škola pisanja newslettera",
+    title: "LETNJA ŠKOLA PISANJA NEWSLETTERA",
     description:
       "Šestonedeljna online škola u kojoj stičeš znanje kako se piše newsletter sa jasnom strukturom, psihologijom, odnosom sa čitaocem i prodajnom funkcijom.",
     type: "website",
