@@ -530,7 +530,7 @@ h3 {
   background-image:
     linear-gradient(90deg, rgba(247, 248, 251, 0.92), rgba(247, 248, 251, 0.72)),
     linear-gradient(180deg, rgba(126, 200, 227, 0.18), rgba(255, 193, 7, 0.1)),
-    url("/Nikola-Mirosavic-109.jpg");
+    var(--audience-bg-image);
   background-attachment: fixed;
   background-position: center 34%;
   background-repeat: no-repeat;
@@ -1096,7 +1096,7 @@ h3 {
 .expectations-section {
   background:
     linear-gradient(90deg, rgba(236, 249, 253, 0.92) 0%, rgba(224, 244, 251, 0.84) 48%, rgba(247, 252, 254, 0.94) 100%),
-    url("/Nikola-Mirosavic-109.jpg") center 42% / cover fixed;
+    var(--expectations-bg-image) center 42% / cover fixed;
   color: var(--ink);
   overflow: hidden;
   padding-bottom: 112px;

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { CSSProperties } from "react";
 import {
   ArrowRight as ArrowRightIcon,
   Check as CheckIcon,
@@ -9,6 +10,12 @@ import {
 import { AudienceGrid } from "./components/audience-grid";
 import { CtaLink } from "./components/cta-link";
 import { SignupForm } from "./components/signup-form";
+
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
+function publicAsset(path: string) {
+  return `${basePath}${path}`;
+}
 
 const audience = [
   "Edukatore",
@@ -75,7 +82,7 @@ const outcomes = [
 ];
 
 const reviews = Array.from({ length: 10 }, (_, index) => ({
-  src: `/${index + 1}.png`,
+  src: publicAsset(`/${index + 1}.png`),
   alt: `Utisak polaznika ${index + 1} o radu sa Nikolom Mirosavićem`,
 }));
 
@@ -162,6 +169,16 @@ const lessons = [
 
 const lessonOrdinals = ["Prvi", "Drugi", "Treći", "Četvrti", "Peti", "Šesti"];
 
+const nikolaBackground = `url("${publicAsset("/Nikola-Mirosavic-109.jpg")}")`;
+
+const audienceBackgroundStyle = {
+  "--audience-bg-image": nikolaBackground,
+} as CSSProperties;
+
+const expectationsBackgroundStyle = {
+  "--expectations-bg-image": nikolaBackground,
+} as CSSProperties;
+
 function CheckList({ items }: { items: string[] }) {
   return (
     <ul className="space-y-4">
@@ -205,7 +222,7 @@ export default function Home() {
           preload="metadata"
           aria-hidden="true"
         >
-          <source src="/hero-video.MOV" />
+          <source src={publicAsset("/hero-video.MOV")} />
         </video>
         <div className="container hero-layout">
           <div className="hero-copy">
@@ -303,7 +320,7 @@ export default function Home() {
             </article>
           </div>
 
-          <div className="audience-block">
+          <div className="audience-block" style={audienceBackgroundStyle}>
             <div className="audience-heading">
               <p className="audience-kicker" aria-hidden="true">
                 OVA ŠKOLA JE ZA
@@ -344,7 +361,7 @@ export default function Home() {
           <div className="instructor-grid">
             <div className="instructor-image-wrap">
               <Image
-                src="/nikola-slika.png"
+                src={publicAsset("/nikola-slika.png")}
                 alt="Nikola Mirosavić u radnom prostoru za snimanje newsletter edukacije"
                 width={880}
                 height={950}
@@ -433,7 +450,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="ne-radimo" className="section expectations-section">
+      <section
+        id="ne-radimo"
+        className="section expectations-section"
+        style={expectationsBackgroundStyle}
+      >
         <div className="container expectations-wrap">
           <h2 className="expectations-kicker">OČEKIVANJA</h2>
           <div className="expectations-card">
