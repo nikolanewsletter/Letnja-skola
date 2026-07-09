@@ -1,4 +1,21 @@
+import Image from "next/image";
+import type { CSSProperties } from "react";
+import {
+  ArrowRight as ArrowRightIcon,
+  Check as CheckIcon,
+  Star,
+  X as XIcon,
+} from "lucide-react";
+
+import { AudienceGrid } from "./components/audience-grid";
 import { CtaLink } from "./components/cta-link";
+import { SignupForm } from "./components/signup-form";
+
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
+function publicAsset(path: string) {
+  return `${basePath}${path}`;
+}
 
 const audience = [
   "Edukatore",
@@ -12,7 +29,7 @@ const audience = [
   "Copywritere",
   "Virtuelne asistente",
   "Psihologe i psihoterapeute",
-  "Ljubitelje prodajnog pisanja",
+  "Kreatore sadržaja",
 ];
 
 const forYou = [
@@ -55,14 +72,19 @@ const format = [
 ];
 
 const outcomes = [
-  "Minimum jedan napisan i ispravljen newsletter",
-  "Banku naslova za svoje buduće mejlove",
+  "Znanje i sigurnost da pišeš newsletter koji prodaje",
+  "Jasnu osnovu pisanja naslova za svoje buduće mejlove",
   "10 formula poziva na akciju sa prodajnom funkcijom",
-  "Jasnu strukturu prodajne serije od 5–7 mejlova",
-  "Povratnu informaciju na domaće zadatke",
-  "AI pristup koji ne zvuči generički",
+  "Jasnu strukturu prodajne serije od 5 - 7 mejlova",
+  "Povratne informacije na domaće zadatke i tvoj dosadašnji rad",
+  "Znanje kako da koristiš AI za pisanje newslettera",
   "Sigurnost da znaš kako da sedneš i napišeš mejl bez blokade",
 ];
+
+const reviews = Array.from({ length: 10 }, (_, index) => ({
+  src: publicAsset(`/${index + 1}.png`),
+  alt: `Utisak polaznika ${index + 1} o radu sa Nikolom Mirosavićem`,
+}));
 
 const lessons = [
   {
@@ -145,13 +167,25 @@ const lessons = [
   },
 ];
 
+const lessonOrdinals = ["Prvi", "Drugi", "Treći", "Četvrti", "Peti", "Šesti"];
+
+const nikolaBackground = `url("${publicAsset("/Nikola-Mirosavic-109.jpg")}")`;
+
+const audienceBackgroundStyle = {
+  "--audience-bg-image": nikolaBackground,
+} as CSSProperties;
+
+const expectationsBackgroundStyle = {
+  "--expectations-bg-image": nikolaBackground,
+} as CSSProperties;
+
 function CheckList({ items }: { items: string[] }) {
   return (
     <ul className="space-y-4">
       {items.map((item) => (
         <li key={item} className="flex gap-3">
           <span className="check-mark" aria-hidden="true">
-            ✓
+            <CheckIcon size={17} strokeWidth={3.2} />
           </span>
           <span>{item}</span>
         </li>
@@ -166,7 +200,7 @@ function ArrowList({ items }: { items: string[] }) {
       {items.map((item) => (
         <li key={item} className="flex gap-3">
           <span className="arrow-mark" aria-hidden="true">
-            →
+            <ArrowRightIcon size={16} strokeWidth={3} />
           </span>
           <span>{item}</span>
         </li>
@@ -179,100 +213,105 @@ export default function Home() {
   return (
     <main>
       <section id="hero" className="hero-section">
-        <div className="container hero-grid">
+        <video
+          className="hero-video"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-hidden="true"
+        >
+          <source src={publicAsset("/hero-video.MOV")} />
+        </video>
+        <div className="container hero-layout">
           <div className="hero-copy">
-            <p className="eyebrow">Letnja škola pisanja newslettera</p>
             <h1>
-              Ovladaj pisanjem prodajnog newslettera od naslova do poziva na
-              akciju
+              <span>LETNJA ŠKOLA</span>
+              <span>PISANJA</span>
+              <span>NEWSLETTERA</span>
             </h1>
-            <p className="lead">
-              Letnja škola u kojoj ćeš steći znanje kako se piše newsletter koji
-              ima jasnu strukturu, psihologiju, odnos sa čitaocem i prodajnu
-              funkciju.
+            <p className="hero-subtitle">
+              Ovladaj pisanjem prodajnog newslettera od naslova do poziva na
+              akciju.
             </p>
-            <div className="hero-meta">
-              <span>Od 3. avgusta do 7. septembra</span>
+            <p className="lead">
               <span>
+                Letnja škola u kojoj ćeš steći znanje kako se piše newsletter
+                koji ima jasnu strukturu,
+              </span>
+              <span>
+                psihologiju, odnos sa čitaocem i prodajnu funkciju.
+              </span>
+            </p>
+            <div className="hero-meta" aria-label="Termin i format programa">
+              <strong>Od 3. avgusta do 7. septembra</strong>
+              <strong>
                 6 online časova uživo + praktičan rad na tvom newsletteru +
                 domaći zadaci
-              </span>
+              </strong>
             </div>
             <CtaLink location="hero">
               Prijavljujem se za Letnju školu pisanja newslettera
             </CtaLink>
           </div>
-
-          <aside className="hero-card" aria-label="Ključne informacije">
-            <div>
-              <span className="small-label">Format programa</span>
-              <p>6 nedelja rada na tvom pisanju</p>
-            </div>
-            <ul>
-              <li>6 online časova uživo</li>
-              <li>Praktičan rad na tvom newsletteru</li>
-              <li>Domaći zadaci</li>
-              <li>Snimci ostaju trajno</li>
-              <li>Mala grupa</li>
-            </ul>
-          </aside>
         </div>
       </section>
 
-      <section id="uvod" className="section">
-        <div className="container narrow">
-          <p className="eyebrow">Zašto program postoji</p>
-          <h2>
-            Ako tvoj newsletter ne donosi rezultat, problem najčešće nije u
-            trudu nego u strukturi.
-          </h2>
-          <div className="prose-block">
-            <p>
+      <section id="uvod" className="section intro-section">
+        <div className="container">
+          <div className="prose-block opening-copy">
+            <p className="opening-empathy">
               Razumem da te frustrira jer tvoje dosadašnje uloženo vreme u
               newsletter, trud i pokušaji pisanja newslettera ne donose željene
               rezultate. Možda tek želiš da pokreneš newsletter, ali ne želiš da
               kreneš nasumično, bez jasne strukture i sigurnosti šta zapravo
               treba da pišeš.
             </p>
-            <p className="highlight">
+            <p className="highlight opening-focus">
               Zato je važno da znaš kako se gradi naslov koji uzima pažnju, uvod
               koji uvlači čitaoca, struktura koja ga vodi kroz tekst, odnos koji
               stvara poverenje i poziv na akciju koji ima jasnu prodajnu
               funkciju.
             </p>
-            <p>
-              Ovo je jedina letnja škola koja će te osposobiti da već na jesen
-              pišeš prodajne newslettere koji se čitaju i koji prodaju. U ovoj
-              letnjoj školi pisanja newslettera prolazimo kroz ceo proces
-              pisanja prodajnog newslettera, od naslova, preko mikro strukture
-              mejla, do poziva na akciju.
+            <p className="opening-promise">
+              <strong>
+                Ovo je jedina letnja škola koja će te osposobiti da već na jesen
+                pišeš prodajne newslettere koji se čitaju i koji prodaju.
+              </strong>{" "}
+              U ovoj letnjoj školi pisanja newslettera prolazimo kroz ceo
+              proces pisanja prodajnog newslettera, od naslova, preko mikro
+              strukture mejla, do poziva na akciju. Radićemo na dubokoj
+              strateškoj psihologiji pisanja mejlova, građenju odnosa i poziva
+              na akciju koji prodaju.
             </p>
           </div>
-          <CtaLink location="uvod">Želim da ovladam pisanjem newslettera</CtaLink>
+          <div className="centered-cta">
+            <CtaLink location="uvod">
+              Želim da ovladam pisanjem newslettera
+            </CtaLink>
+          </div>
         </div>
       </section>
 
-      <section id="za-tebe" className="section section-soft">
-        <div className="container">
-          <div className="section-heading">
-            <p className="eyebrow">Da li je ovo za tebe?</p>
-            <h2>Prepoznaj gde si sada i šta zaista želiš da unaprediš.</h2>
-          </div>
+      <section id="za-tebe" className="section section-soft fit-section">
+        <div className="container fit-wrap">
+          <h2 className="fit-heading">Da li je ova škola za tebe?</h2>
           <div className="fit-grid">
-            <article className="card">
+            <article className="card card-positive fit-card">
               <h3>
                 Letnja škola pisanja newslettera je za tebe ako želiš da ovladaš
                 kako da:
               </h3>
               <CheckList items={forYou} />
             </article>
-            <article className="card card-muted">
+            <article className="card card-negative fit-card">
               <h3>Letnja škola pisanja newslettera nije za tebe ako:</h3>
               <ul className="space-y-4">
                 {notForYou.map((item) => (
                   <li key={item} className="flex gap-3">
                     <span className="x-mark" aria-hidden="true">
-                      ×
+                      <XIcon size={15} strokeWidth={3.2} />
                     </span>
                     <span>{item}</span>
                   </li>
@@ -281,25 +320,26 @@ export default function Home() {
             </article>
           </div>
 
-          <div className="audience-block">
-            <h3>Ova letnja škola je za:</h3>
-            <div className="tag-grid">
-              {audience.map((item) => (
-                <span key={item} className="tag">
-                  {item}
-                </span>
-              ))}
+          <div className="audience-block" style={audienceBackgroundStyle}>
+            <div className="audience-heading">
+              <p className="audience-kicker" aria-hidden="true">
+                OVA ŠKOLA JE ZA
+              </p>
             </div>
+            <AudienceGrid items={audience} />
           </div>
         </div>
       </section>
 
-      <section id="ocekivanja" className="section">
-        <div className="container">
-          <div className="section-heading">
-            <p className="eyebrow">Format i podrška</p>
-            <h2>Šta te očekuje i kako funkcioniše letnja škola.</h2>
-          </div>
+      <section
+        id="ocekivanja"
+        className="section support-section"
+        aria-label="Šta te očekuje"
+      >
+        <div className="container support-wrap">
+          <p className="support-kicker" aria-hidden="true">
+            ŠTA TE OČEKUJE?
+          </p>
           <div className="two-column">
             <article className="card">
               <h3>Šta te očekuje u letnjoj školi pisanja newslettera?</h3>
@@ -313,43 +353,88 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="ishodi" className="section outcome-section">
-        <div className="container outcome-grid">
-          <div>
-            <p className="eyebrow">Ishodi programa</p>
-            <h2>Nakon letnje škole imaćeš:</h2>
-            <p className="section-lead">
-              Ne završavaš samo sa beleškama sa časova. Završavaš sa konkretnim
-              materijalom, povratnom informacijom i sigurnijim sistemom pisanja.
-            </p>
-            <CtaLink location="ishodi">Prijavljujem se za Letnju školu</CtaLink>
+      <section id="o-predavacu" className="section instructor-section">
+        <div className="container instructor-wrap">
+          <p className="instructor-kicker" aria-hidden="true">
+            O PREDAVAČU
+          </p>
+          <div className="instructor-grid">
+            <div className="instructor-image-wrap">
+              <Image
+                src={publicAsset("/nikola-slika.png")}
+                alt="Nikola Mirosavić u radnom prostoru za snimanje newsletter edukacije"
+                width={880}
+                height={950}
+                sizes="(max-width: 900px) 100vw, 48vw"
+                className="instructor-image"
+              />
+            </div>
+
+            <div className="instructor-copy">
+              <h3>Nikola Mirosavić</h3>
+              <div className="instructor-prose">
+                <p>
+                  Newsletter mastermind, edukator i mentor. Poslednjih 9 godina
+                  bavim se newsletterom i mail marketingom, do sada sam u samo
+                  poslednjih 3 godine sa preko 130 biznisa postavio uspešne
+                  newsletter strategije o čemu svedoče i rezultati klijenata na
+                  kraju ove stranice.
+                </p>
+                <p>
+                  Nakon više od 467 nedelja slanja newslettera i konzistentnosti
+                  bez ijedne jedine srede izuzetka odlučio sam da svojim
+                  znanjem, veštinama proverenim i testiranim u praksi pomognem
+                  malim biznisima da izgrade zajednicu, poverenje, odnos sa
+                  svojim klijentima i unaprede prodaju putem mejla.
+                </p>
+                <ul>
+                  <li>Iskustvo od preko 9 godina u digitalnom marketingu</li>
+                  <li>Kreiranje kampanja za različite vrste mreža</li>
+                </ul>
+                <p>
+                  Sve ovo doprinosi tome da kreativno implementiram različite
+                  inovativne strategije u newsletter koje su dostupne samo
+                  ljudima sa kojima sarađujem.
+                </p>
+              </div>
+            </div>
           </div>
-          <article className="card outcome-card">
-            <CheckList items={outcomes} />
-          </article>
         </div>
       </section>
 
-      <section id="casovi" className="section">
-        <div className="container">
-          <div className="section-heading">
-            <p className="eyebrow">Program po časovima</p>
-            <h2>Šta konkretno radiš tokom 6 nedelja.</h2>
-          </div>
-          <div className="lesson-list">
+      <section id="casovi" className="section program-section">
+        <div className="container program-wrap">
+          <h2 className="sr-only">Program letnje škole po časovima</h2>
+          <p className="program-kicker" aria-hidden="true">
+            Program
+          </p>
+          <h2 className="program-title">Šta konkretno radimo na časovima?</h2>
+          <div className="lesson-list program-list">
             {lessons.map((lesson, index) => (
-              <details key={lesson.date} className="lesson-card" open={index === 0}>
+              <details key={lesson.date} className="lesson-card">
                 <summary>
-                  <span className="lesson-number">Čas {index + 1}</span>
-                  <span className="lesson-title">{lesson.title}</span>
-                  <span className="lesson-date">{lesson.date}</span>
+                  <span className="lesson-play" aria-hidden="true" />
+                  <span className="lesson-title">
+                    <span className="lesson-ordinal">
+                      <span>{lessonOrdinals[index]} čas</span>:
+                    </span>{" "}
+                    {lesson.title}
+                  </span>
+                  <span className="lesson-date sr-only">
+                    Čas {index + 1}, {lesson.date}
+                  </span>
                 </summary>
                 <div className="lesson-content">
                   <p>{lesson.intro}</p>
                   {lesson.topics.length > 0 ? (
                     <ul>
                       {lesson.topics.map((topic) => (
-                        <li key={topic}>{topic}</li>
+                        <li key={topic}>
+                          <span className="lesson-topic-icon" aria-hidden="true">
+                            👉
+                          </span>
+                          <span>{topic}</span>
+                        </li>
                       ))}
                     </ul>
                   ) : null}
@@ -365,52 +450,106 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="ne-radimo" className="section section-soft">
-        <div className="container narrow">
-          <article className="notice-card">
-            <span className="notice-icon" aria-hidden="true">
-              !
-            </span>
-            <div>
-              <p className="eyebrow">Važno očekivanje</p>
-              <h2>Šta NE RADIMO na ovoj letnjoj školi pisanja newslettera?</h2>
-              <p>
-                Ne radimo ni u jednom softveru za slanje newslettera niti se
-                bavimo tehničkim stvarima u softveru već isključivo pisanjem i
-                psihologijom pisanja mejlova.
-              </p>
-            </div>
+      <section
+        id="ne-radimo"
+        className="section expectations-section"
+        style={expectationsBackgroundStyle}
+      >
+        <div className="container expectations-wrap">
+          <h2 className="expectations-kicker">OČEKIVANJA</h2>
+          <div className="expectations-card">
+            <h3 className="expectations-question">
+              Šta NE RADIMO na ovoj letnjoj školi pisanja newslettera?
+            </h3>
+            <p className="expectations-copy">
+              Ne radimo ni u jednom softveru za slanje newslettera niti se
+              bavimo tehničkim stvarima u softveru već se{" "}
+              <span className="expectations-underline">
+                isključivo pisanjem i psihologijom pisanja mejlova.
+              </span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="ishodi" className="section outcome-section">
+        <div className="container outcome-wrap">
+          <div className="outcome-heading">
+            <h2>Nakon letnje škole imaćeš:</h2>
+          </div>
+          <article className="card outcome-card">
+            <CheckList items={outcomes} />
           </article>
+          <div className="outcome-cta">
+            <CtaLink location="ishodi">Prijavljujem se za Letnju školu</CtaLink>
+          </div>
+        </div>
+      </section>
+
+      <section id="reviews" className="section reviews-section">
+        <div className="container reviews-heading">
+          <div className="reviews-title">
+            <h2 aria-label="Utisci">UTISCI</h2>
+          </div>
+          <Star className="reviews-star" size={58} strokeWidth={1.8} />
+          <p className="reviews-copy">
+            Iskustva ljudi koji su već radili sa mnom i primenili newsletter
+            strategije u svom pisanju.
+          </p>
+        </div>
+
+        <div className="reviews-marquee" aria-label="Utisci polaznika">
+          <div className="reviews-track">
+            {[...reviews, ...reviews].map((review, index) => (
+              <figure
+                key={`${review.src}-${index}`}
+                className="review-card"
+                aria-hidden={index >= reviews.length}
+              >
+                <Image
+                  src={review.src}
+                  alt={index < reviews.length ? review.alt : ""}
+                  width={1080}
+                  height={1080}
+                  sizes="(max-width: 640px) 72vw, (max-width: 900px) 42vw, 320px"
+                  className="review-image"
+                />
+              </figure>
+            ))}
+          </div>
         </div>
       </section>
 
       <section id="cena" className="section price-section">
-        <div className="container price-grid">
-          <div>
-            <p className="eyebrow">Cena i prijava</p>
-            <h2>Šta je potrebno sada da uradiš?</h2>
+        <div className="container price-layout">
+          <div className="price-heading">
+            <h2 aria-label="Prijavi se">PRIJAVI SE</h2>
             <p className="section-lead">
               Sada te pozivam da se prijaviš za Letnju školu pisanja
-              newslettera. Broj mesta je ograničen zbog rada u maloj grupi i
-              povratnih informacija na domaće zadatke.
+              newslettera.
             </p>
           </div>
 
           <article className="price-card">
-            <span className="badge">Broj mesta je ograničen</span>
-            <p className="small-label">Cena programa</p>
+            <div className="price-card-top">
+              <p className="price-plan">Letnja škola</p>
+              <span className="badge">Broj mesta je ograničen</span>
+            </div>
+            <p className="price-label">Cena</p>
             <div className="price">600€</div>
             <div className="payment-box">
               <strong>Plaćanje u 2 rate:</strong>
-              <span>300€ do 03.08.2026.</span>
-              <span>300€ do 03.09.2026.</span>
+              <span>Prva rata 300€ do 03.08.2026.</span>
+              <span>Druga rata 300€ do 03.09.2026.</span>
             </div>
             <div className="full-payment">
-              <span>Uplata u celosti pre početka programa:</span>
+              <span>
+                Za uplatu u celosti pre početka programa cena iznosi:
+              </span>
               <strong>540€</strong>
             </div>
             <CtaLink location="cena" className="w-full">
-              Prijavljujem se za Letnju školu pisanja newslettera
+              PRIJAVI SE
             </CtaLink>
           </article>
         </div>
@@ -418,45 +557,18 @@ export default function Home() {
 
       <section id="prijava" className="section signup-section">
         <div className="container signup-grid">
-          <div>
-            <p className="eyebrow">Prijavna forma</p>
-            <h2>Ostavi podatke za prijavu.</h2>
+          <div className="signup-copy">
+            <p className="signup-kicker" aria-hidden="true">
+              <span>Prijavna</span>
+              <span>forma</span>
+            </p>
             <p className="section-lead">
-              Forma je pripremljena za povezivanje sa MailerLite, CRM ili drugim
-              alatom za prijave.
+              Zamolio bih te da popuniš polja pored kako bih imao više
+              informacija o tebi i mogao što lakše i što bolje da ti pomognem u
+              budućem radu i ovladavanju novim veštinama.
             </p>
           </div>
-          <form className="signup-form">
-            {/* TODO: Ubaciti MailerLite form embed kod ili povezati formu sa backendom. */}
-            <label>
-              Ime
-              <input name="name" type="text" placeholder="Tvoje ime" required />
-            </label>
-            <label>
-              Email
-              <input
-                name="email"
-                type="email"
-                placeholder="tvoj@email.com"
-                required
-              />
-            </label>
-            <label>
-              Telefon <span>opciono</span>
-              <input name="phone" type="tel" placeholder="+381..." />
-            </label>
-            <label>
-              Da li već imaš newsletter?
-              <textarea name="hasNewsletter" rows={3} required />
-            </label>
-            <label>
-              Šta želiš da postigneš kroz Letnju školu?
-              <textarea name="goal" rows={4} required />
-            </label>
-            <button type="button" className="btn btn-primary w-full">
-              Pošalji prijavu
-            </button>
-          </form>
+          <SignupForm />
         </div>
       </section>
 
