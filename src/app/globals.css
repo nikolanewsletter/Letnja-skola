@@ -160,6 +160,7 @@ h3 {
   color: var(--ink);
   font-weight: 850;
   letter-spacing: 0;
+  overflow-wrap: anywhere;
 }
 
 h1 {
@@ -225,7 +226,6 @@ h3 {
 
 .hero-section .lead span {
   display: block;
-  white-space: nowrap;
 }
 
 .hero-section .eyebrow {
@@ -758,6 +758,7 @@ h3 {
   grid-template-columns: minmax(300px, 0.92fr) minmax(0, 1.08fr);
   margin-inline: auto;
   max-width: 1040px;
+  min-width: 0;
 }
 
 .instructor-image-wrap {
@@ -790,6 +791,7 @@ h3 {
 .instructor-copy {
   align-self: center;
   max-width: 760px;
+  min-width: 0;
 }
 
 .instructor-copy .eyebrow {
@@ -877,7 +879,7 @@ h3 {
   color: #ffffff;
   font-size: clamp(2rem, 4.7vw, 3.75rem);
   line-height: 1.08;
-  white-space: nowrap;
+  text-wrap: balance;
 }
 
 .outcome-card {
@@ -1252,6 +1254,7 @@ h3 {
 .review-image {
   display: block;
   height: auto;
+  object-fit: cover;
   width: 100%;
 }
 
@@ -1775,8 +1778,8 @@ h3 {
   }
 
   .hero-section h1 {
-    font-size: clamp(1rem, calc(8vw - 1.67rem), 1rem);
-    line-height: 0.86;
+    font-size: clamp(2rem, 12.8vw, 3.15rem);
+    line-height: 0.9;
   }
 
   .hero-copy {
@@ -1831,9 +1834,19 @@ h3 {
     padding: 64px 0;
   }
 
+  .instructor-grid,
+  .instructor-image-wrap,
+  .instructor-copy {
+    max-width: 100%;
+    min-width: 0;
+  }
+
   .instructor-kicker {
-    font-size: clamp(2.7rem, 15vw, 4.4rem);
+    font-size: clamp(2rem, 10vw, 2.75rem);
+    overflow-wrap: anywhere;
+    text-align: center;
     white-space: normal;
+    width: 100%;
   }
 
   .support-kicker {
@@ -1875,10 +1888,12 @@ h3 {
 
   .outcome-heading h2 {
     font-size: clamp(1.25rem, 6.2vw, 2rem);
+    white-space: normal;
   }
 
   .price-heading h2 {
-    font-size: clamp(3.1rem, 15vw, 4.2rem);
+    font-size: clamp(2.55rem, 14vw, 4.2rem);
+    overflow-wrap: anywhere;
   }
 
   .program-section {
@@ -1886,8 +1901,14 @@ h3 {
   }
 
   .program-kicker {
-    font-size: clamp(3.68rem, 19vw, 6.98rem);
+    font-size: clamp(2.6rem, 14vw, 4.4rem);
+    left: 50%;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    text-align: center;
     top: -10px;
+    transform: translateX(-50%);
+    width: 100%;
   }
 
   .program-title {
@@ -1971,9 +1992,15 @@ h3 {
     padding-top: 70px;
   }
 
+  .reviews-heading {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .reviews-heading h2 {
-    font-size: clamp(3.7rem, 22vw, 6.8rem);
+    font-size: clamp(2.75rem, 16vw, 4.8rem);
     margin-bottom: 24px;
+    max-width: 100%;
+    overflow-wrap: anywhere;
   }
 
   .reviews-copy {
@@ -1982,13 +2009,33 @@ h3 {
   }
 
   .reviews-track {
+    animation: none;
     --reviews-half-gap: 8px;
     gap: 16px;
+    overflow-x: auto;
+    padding: 4px 14px 12px;
+    scroll-padding-inline: 14px;
+    scroll-snap-type: x mandatory;
+    width: auto;
   }
 
   .review-card {
     border-radius: 14px;
-    flex-basis: 72vw;
+    flex-basis: min(78vw, 320px);
+    scroll-snap-align: start;
+  }
+
+  .review-card[aria-hidden="true"] {
+    display: none;
+  }
+
+  .reviews-marquee {
+    overflow: visible;
+  }
+
+  .reviews-marquee::before,
+  .reviews-marquee::after {
+    display: none;
   }
 
   .mobile-sticky-cta {
@@ -1997,14 +2044,20 @@ h3 {
     bottom: 0;
     display: block;
     left: 0;
-    padding: 10px 14px;
+    padding: 8px 14px calc(8px + env(safe-area-inset-bottom));
     position: fixed;
     right: 0;
     z-index: 30;
   }
 
+  .mobile-sticky-cta .btn {
+    font-size: 1rem;
+    min-height: 50px;
+    padding: 12px 20px;
+  }
+
   body {
-    padding-bottom: 78px;
+    padding-bottom: calc(96px + env(safe-area-inset-bottom));
   }
 }
 
