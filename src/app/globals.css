@@ -1823,7 +1823,20 @@ h3 {
   }
 
   .audience-block {
+    background-image:
+      linear-gradient(180deg, rgba(247, 248, 251, 0.78), rgba(247, 248, 251, 0.9)),
+      linear-gradient(180deg, rgba(126, 200, 227, 0.18), rgba(255, 193, 7, 0.1)),
+      var(--audience-bg-image);
+    background-position: center top;
     padding-inline: 14px;
+  }
+
+  .audience-grid-ready .audience-item,
+  .audience-grid-ready.is-visible .audience-item {
+    animation: none;
+    filter: none;
+    opacity: 1;
+    translate: 0 0;
   }
 
   .outcome-section {
@@ -2011,12 +2024,17 @@ h3 {
   .reviews-track {
     animation: none;
     --reviews-half-gap: 8px;
+    -webkit-overflow-scrolling: touch;
     gap: 16px;
     overflow-x: auto;
+    overscroll-behavior-inline: contain;
     padding: 4px 14px 12px;
     scroll-padding-inline: 14px;
     scroll-snap-type: x mandatory;
-    width: auto;
+    touch-action: pan-x;
+    transform: none;
+    width: 100%;
+    will-change: auto;
   }
 
   .review-card {
@@ -2025,12 +2043,18 @@ h3 {
     scroll-snap-align: start;
   }
 
+  .review-image {
+    pointer-events: none;
+    user-select: none;
+  }
+
   .review-card[aria-hidden="true"] {
     display: none;
   }
 
   .reviews-marquee {
-    overflow: visible;
+    margin-inline: calc(50% - 50vw);
+    overflow: hidden;
   }
 
   .reviews-marquee::before,
